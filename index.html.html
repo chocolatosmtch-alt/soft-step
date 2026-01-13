@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftStep - Langkah Nyaman, Gaya Maksimal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #3d2b1f 0%, #000000 100%);
+            color: #f3f4f6;
+            scroll-behavior: smooth;
+        }
+
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .product-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .product-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        .voucher-card {
+            position: relative;
+            background: linear-gradient(135deg, #b45309 0%, #451a03 100%);
+            border-left: 8px dashed #000;
+        }
+
+        .voucher-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -10px;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            background: #1a1a1a;
+            border-radius: 50%;
+        }
+
+        @keyframes pulse-green {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
+        .chat-float {
+            animation: pulse-green 2s infinite;
+        }
+
+        .category-pill {
+            transition: all 0.3s ease;
+        }
+        
+        .fade-out { opacity: 0; transform: scale(0.95); }
+        .fade-in { opacity: 1; transform: scale(1); }
+        .hidden-card { display: none; }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- Navigasi -->
+    <nav class="fixed w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <span class="text-2xl font-bold tracking-tighter text-amber-600">SOFT<span class="text-white">STEP</span></span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="hover:text-amber-500 px-3 py-2 transition text-sm font-medium">Beranda</a>
+                        <a href="#collection" class="hover:text-amber-500 px-3 py-2 transition text-sm font-medium">Koleksi</a>
+                        <a href="#promo" class="hover:text-amber-500 px-3 py-2 transition text-sm font-medium">Voucher</a>
+                        <a href="#contact" class="bg-amber-700 hover:bg-amber-600 px-5 py-2 rounded-full transition shadow-lg text-sm font-bold">Hubungi Admin</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-[80vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-black opacity-60"></div>
+            <div class="w-full h-full bg-[url('https://images.unsplash.com/photo-1460353581641-37baddab0fa2?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center"></div>
+        </div>
+        
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 leading-tight">Langkah <span class="text-amber-600">Ikonik</span> Untuk Setiap Cerita</h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-10">Katalog sepatu premium terkurasi. Nike, New Balance, dan Puma dengan kualiti terbaik.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#collection" class="bg-amber-700 hover:bg-amber-800 text-white font-semibold py-4 px-10 rounded-full text-lg transition shadow-2xl">Jelajahi Koleksi</a>
+                <a href="#promo" class="glass-effect hover:bg-white/10 text-white font-semibold py-4 px-10 rounded-full text-lg transition">Klaim Voucher</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Koleksi Sepatu -->
+    <section id="collection" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-amber-600 font-semibold tracking-widest uppercase mb-2">Pilihan Terbaik</h2>
+                <h2 class="text-4xl font-bold">Koleksi Pilihan Kami</h2>
+                
+                <!-- Filter Kategori -->
+                <div class="flex flex-wrap justify-center gap-3 mt-8" id="filter-buttons">
+                    <button onclick="filterShoes('all')" class="category-pill border border-amber-800/50 px-6 py-2 rounded-full text-sm cursor-pointer bg-amber-700 text-white active-btn">Semua</button>
+                    <button onclick="filterShoes('nike')" class="category-pill border border-amber-800/50 px-6 py-2 rounded-full text-sm cursor-pointer hover:bg-amber-700/30">Nike</button>
+                    <button onclick="filterShoes('nb')" class="category-pill border border-amber-800/50 px-6 py-2 rounded-full text-sm cursor-pointer hover:bg-amber-700/30">New Balance</button>
+                    <button onclick="filterShoes('puma')" class="category-pill border border-amber-800/50 px-6 py-2 rounded-full text-sm cursor-pointer hover:bg-amber-700/30">Puma</button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="shoe-grid">
+                
+                <!-- NIKE -->
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="nike">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=2070&auto=format&fit=crop" alt="Nike Air Max" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=Nike+Air+Max'">
+                        <div class="absolute top-4 left-4 bg-red-600 text-[10px] font-bold px-3 py-1 rounded-full text-white uppercase">Nike</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">Nike Air Max 270</h3>
+                        <p class="text-xs text-gray-400 mb-4">Merah Sporty</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 2.199k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="nike">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?q=80&w=1925&auto=format&fit=crop" alt="Nike Air Force" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=Nike+AF1'">
+                        <div class="absolute top-4 left-4 bg-red-600 text-[10px] font-bold px-3 py-1 rounded-full text-white uppercase">Nike</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">Air Force 1 '07</h3>
+                        <p class="text-xs text-gray-400 mb-4">Putih Bersih Essential</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 1.550k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW BALANCE -->
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="nb">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1539185441755-769473a23570?q=80&w=2071&auto=format&fit=crop" alt="NB 530" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=NB+530'">
+                        <div class="absolute top-4 left-4 bg-blue-700 text-[10px] font-bold px-3 py-1 rounded-full text-white uppercase">NB</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">NB 530 Steel Grey</h3>
+                        <p class="text-xs text-gray-400 mb-4">Estetika Dad Shoes</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 1.799k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="nb">
+                    <div class="h-64 overflow-hidden relative">
+                        <!-- Updated New Balance 990v5 Grey Image -->
+                        <img src="https://www.hopkicks.pk/image/cache/catalog/I-SHOES%20CHAPLE/%20%20%20%20%20%20%20PART%202/%20%20%20%20%20%20NB%20990V5%20GREY/9-1100x1100.jpg" alt="NB 990" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=NB+990'">
+                        <div class="absolute top-4 left-4 bg-blue-700 text-[10px] font-bold px-3 py-1 rounded-full text-white uppercase">NB</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">NB 990v5 Grey</h3>
+                        <p class="text-xs text-gray-400 mb-4">Lini Heritage Premium</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 3.100k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PUMA -->
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="puma">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1608231387042-66d1773070a5?q=80&w=1974&auto=format&fit=crop" alt="Puma Suede" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=Puma+Suede'">
+                        <div class="absolute top-4 left-4 bg-black text-[10px] font-bold px-3 py-1 rounded-full border border-white uppercase">Puma</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">Puma Suede Classic</h3>
+                        <p class="text-xs text-gray-400 mb-4">Hitam/Putih Streetwear</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 1.299k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="puma">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/397549/01/sv01/fnd/IDN/fmt/png/Sepatu-Sneaker-Palermo-Special" alt="Puma Palermo" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=Puma+Palermo'">
+                        <div class="absolute top-4 left-4 bg-black text-[10px] font-bold px-3 py-1 rounded-full border border-white uppercase">Puma</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">Puma Palermo</h3>
+                        <p class="text-xs text-gray-400 mb-4">Palermo Special Edition</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 1.450k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="shoe-card product-card glass-effect rounded-3xl overflow-hidden group" data-brand="puma">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="https://img01.ztat.net/article/spp-media-p1/4b8c40ee333f42f5bf667b367b76b676/6871d4847df44735a3386378dce9fda1.jpg?imwidth=762&filter=packshot" alt="Puma 180" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" onerror="this.src='https://via.placeholder.com/400x400?text=Puma+180'">
+                        <div class="absolute top-4 left-4 bg-black text-[10px] font-bold px-3 py-1 rounded-full border border-white uppercase">Puma</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-lg font-bold mb-1">Puma 180 Skate</h3>
+                        <p class="text-xs text-gray-400 mb-4">Chunky Retro Design</p>
+                        <div class="flex justify-between items-center">
+                            <p class="text-amber-500 font-bold">Rp 1.699k</p>
+                            <button class="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-xl text-xs font-bold transition">Butiran</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="mt-20 text-center">
+                <p id="empty-state" class="hidden text-gray-500 mb-8 italic">Tiada koleksi untuk kategori ini...</p>
+                <button class="glass-effect px-12 py-4 rounded-full font-bold hover:bg-amber-700 transition">Muat Lebih Banyak</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bahagian Promo -->
+    <section id="promo" class="py-24 bg-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-amber-600 font-semibold tracking-widest uppercase mb-2">Tawaran Terhad</h2>
+                <h2 class="text-3xl font-bold">Tebus Baucar Membeli-belah</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="voucher-card p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl">
+                    <div class="text-center md:text-left">
+                        <span class="text-xs font-bold uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">Jualan Kilat</span>
+                        <h3 class="text-4xl font-black mt-2">DISKON 15%</h3>
+                        <p class="text-sm opacity-80 mt-1">Tanpa pembelian minimum.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-white/20 border-2 border-dashed border-white/40 px-6 py-3 rounded-lg mb-3">
+                            <span class="font-mono font-bold text-xl tracking-tighter">SOFTSTEP15</span>
+                        </div>
+                        <button onclick="copyVoucher('SOFTSTEP15')" class="bg-black text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-white hover:text-black transition">Salin Kod</button>
+                    </div>
+                </div>
+
+                <div class="voucher-card p-8 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-xl" style="background: linear-gradient(135deg, #15803d 0%, #064e3b 100%);">
+                    <div class="text-center md:text-left">
+                        <span class="text-xs font-bold uppercase tracking-widest bg-black/30 px-3 py-1 rounded-full">Penghantaran</span>
+                        <h3 class="text-4xl font-black mt-2">PENGHANTARAN PERCUMA</h3>
+                        <p class="text-sm opacity-80 mt-1">Percuma ke seluruh negara.</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                        <div class="bg-white/20 border-2 border-dashed border-white/40 px-6 py-3 rounded-lg mb-3">
+                            <span class="font-mono font-bold text-xl tracking-tighter">BEBASONGKIR</span>
+                        </div>
+                        <button onclick="copyVoucher('BEBASONGKIR')" class="bg-black text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-white hover:text-black transition">Salin Kod</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Butang WhatsApp -->
+    <a href="https://wa.me/6281234567890" target="_blank" class="chat-float fixed bottom-8 right-8 z-[100] bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-2xl flex items-center gap-3 transition-all duration-300">
+        <i class="fab fa-whatsapp text-2xl"></i>
+        <span class="font-bold pr-2 hidden md:block">Tanya Admin</span>
+    </a>
+
+    <!-- Footer -->
+    <footer id="contact" class="bg-black pt-20 pb-10 border-t border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-3xl font-bold tracking-tighter text-amber-600 mb-6 block">SOFT<span class="text-white">STEP</span></span>
+            <p class="text-gray-400 mb-10 text-sm max-w-md mx-auto">Pakar kasut premium. Menjamin keselesaan dan gaya maksimum untuk setiap langkah anda.</p>
+            <div class="border-t border-white/5 pt-8 text-gray-500 text-[10px]">
+                <p>&copy; 2026 SoftStep Footwear.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Notifikasi Toast -->
+    <div id="toast" class="fixed bottom-24 left-1/2 transform -translate-x-1/2 glass-effect px-6 py-3 rounded-full border border-amber-500 text-sm font-bold opacity-0 transition-opacity duration-300 pointer-events-none z-[200]">
+        Kod berjaya disalin!
+    </div>
+
+    <script>
+        function filterShoes(category) {
+            const cards = document.querySelectorAll('.shoe-card');
+            const buttons = document.querySelectorAll('#filter-buttons button');
+            const emptyState = document.getElementById('empty-state');
+            let found = false;
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-amber-700', 'text-white');
+                if(btn.textContent.toLowerCase().includes(category) || (category === 'all' && btn.textContent === 'Semua')) {
+                    btn.classList.add('bg-amber-700', 'text-white');
+                }
+            });
+
+            cards.forEach(card => {
+                card.classList.add('fade-out');
+                setTimeout(() => {
+                    if (category === 'all' || card.getAttribute('data-brand') === category) {
+                        card.classList.remove('hidden-card');
+                        card.classList.remove('fade-out');
+                        card.classList.add('fade-in');
+                        found = true;
+                    } else {
+                        card.classList.add('hidden-card');
+                        card.classList.remove('fade-in');
+                    }
+                    emptyState.classList.toggle('hidden', found);
+                }, 300);
+            });
+        }
+
+        function copyVoucher(code) {
+            const el = document.createElement('textarea');
+            el.value = code;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+            
+            const toast = document.getElementById('toast');
+            toast.textContent = `Baucar ${code} disalin!`;
+            toast.classList.replace('opacity-0', 'opacity-100');
+            setTimeout(() => toast.classList.replace('opacity-100', 'opacity-0'), 2000);
+        }
+
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-black/95', 'shadow-2xl');
+                nav.classList.remove('glass-effect');
+            } else {
+                nav.classList.remove('bg-black/95', 'shadow-2xl');
+                nav.classList.add('glass-effect');
+            }
+        });
+    </script>
+</body>
+</html>
